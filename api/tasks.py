@@ -20,6 +20,7 @@ def search_videos_by_keyword(client, keyword):
 
 @shared_task
 def fetch_videos():
+    # there is a big lack of validation and error checking
     client = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION,
                    developerKey=DEVELOPER_KEY)
     words = Word.objects.all()
@@ -34,4 +35,3 @@ def fetch_videos():
             video.save()
             word.videos.add(video)
             word.save()
-    return 'Fetching Videos'
