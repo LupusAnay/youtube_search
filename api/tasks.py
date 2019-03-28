@@ -1,13 +1,17 @@
-import json
+import logging
 
 from celery import shared_task
 from googleapiclient.discovery import build
 
 from api.models import Word, Video
+from youtube_search.settings import GOOGLE_API_KEY
 
-DEVELOPER_KEY = 'AIzaSyA8rt8xmkcQryAN5JSQJztkG3xJAfhrxI4'
+DEVELOPER_KEY = GOOGLE_API_KEY
 YOUTUBE_API_SERVICE_NAME = 'youtube'
 YOUTUBE_API_VERSION = 'v3'
+
+
+logging.getLogger('googleapicliet.discovery_cache').setLevel(logging.ERROR)
 
 
 def search_videos_by_keyword(client, keyword):
