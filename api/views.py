@@ -1,6 +1,6 @@
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse, Http404
 # Create your views here.
-from rest_framework import status
+from rest_framework import status, generics
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.decorators import api_view, authentication_classes, \
     permission_classes
@@ -72,3 +72,15 @@ def video_list(request, pk):
         videos = word.get_all_videos()
         serializer = VideoSerializer(videos, many=True)
         return Response(serializer.data)
+
+
+class VideoListView(generics.ListAPIView):
+    serializer_class = VideoSerializer
+
+    def get_queryset(self):
+        try:
+            self.word = Word.objects.get(pk=self.kwargs['pk'])
+        except Word.DoesNotExist:
+            raise Http404()
+
+        return self.word.get_all_videos()

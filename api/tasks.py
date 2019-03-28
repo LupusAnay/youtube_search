@@ -10,14 +10,14 @@ DEVELOPER_KEY = GOOGLE_API_KEY
 YOUTUBE_API_SERVICE_NAME = 'youtube'
 YOUTUBE_API_VERSION = 'v3'
 
-
 logging.getLogger('googleapicliet.discovery_cache').setLevel(logging.ERROR)
 
 
 def search_videos_by_keyword(client, keyword):
     response = client \
         .search() \
-        .list(part='snippet', type='video', order='date', q=keyword) \
+        .list(part='snippet', type='video', order='date', q=keyword,
+              maxResults=30) \
         .execute()
     return response
 
